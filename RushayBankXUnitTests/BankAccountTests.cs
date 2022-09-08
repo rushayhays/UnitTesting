@@ -52,6 +52,16 @@ namespace RushayBankXUnitTests
         }
 
         [Fact]
+        public void Withdraw_TooMany_Funds_Throws()
+        {
+            //ARRANGE
+            var account = new BankAccount(1000);
+
+            //ACT + ASSERT
+            Assert.Throws<ArgumentOutOfRangeException>(() => account.Withdraw(2000));
+        }
+
+        [Fact]
         public void Transfer_FundsUpdates_Balance()
         {
             //ARRANGE
@@ -64,6 +74,19 @@ namespace RushayBankXUnitTests
             //ASSERT
             Assert.Equal(500, account.Balance);
             Assert.Equal(500, otherAccount.Balance);
+        }
+
+        [Fact]
+        public void Transfer_FundsTo_NonExisting_Account_Throws()
+        {
+            //ARRANGE
+            var account = new BankAccount(1000);
+            var otherAccount = new BankAccount(0);
+
+            //ACT + ASSERT
+            Assert.Throws<ArgumentNullException>(() => account.TransferFundsTo(null, 2000));
+
+           
         }
     }
 
